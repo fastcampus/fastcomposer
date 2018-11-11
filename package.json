@@ -1,0 +1,62 @@
+{
+  "name": "fastcomposer",
+  "description": "layout based WYSIWYG html editor",
+  "version": "1.0.0",
+  "author": "Dongsu Jang <iolothebard@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test": "vue-cli-service test",
+    "lint": "vue-cli-service lint",
+    "bundle": "vue-cli-service build --target lib --name fastcomposer ./src/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "lodash": "^4.17.11",
+    "vue": "^2.5.17"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.5",
+    "@vue/cli-plugin-eslint": "^3.0.5",
+    "@vue/cli-service": "^3.0.5",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0-0",
+    "fastcomposer-layouts-fastcampus": "git+ssh://git@github.com/fastcampusgit/fastcomposer-layouts-fastcampus.git",
+    "node-sass": "^4.10.0",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true,
+      "browser": true,
+      "jquery": true,
+      "mocha": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {
+      "no-console": 1
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  }
+}
