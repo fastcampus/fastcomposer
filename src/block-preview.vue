@@ -15,7 +15,7 @@ export default {
 
 <style lang="scss" scoped>
 .fc-block-preview {
-  flex: 1 1 0;
+  flex: 0 0 0;
   width: 100%;
   border: 2px dashed fuchsia;
 }
