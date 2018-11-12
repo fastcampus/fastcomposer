@@ -91,8 +91,8 @@ ${block.layout.templateFunc(block.values)}
 
 <style lang="scss" scoped>
 .fc-editor {
-  flex: 0 0 25rem;
-  width: 25rem;
+  flex: 0 0 20rem;
+  width: 20rem;
   display: flex;
   flex-direction: column;
 

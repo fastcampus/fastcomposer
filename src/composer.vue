@@ -1,16 +1,8 @@
 <template>
   <div class="fc-composer">
-    <header>
-      <h1>FastComposer - {{title}}</h1>
-    </header>
-    <main>
-      <Sidebar :layouts="layoutArray" @select="selectLayout"></Sidebar>
-      <Editor :blocks="blocks" ref="editor" @save="save"></Editor>
-      <Preview :blocks="blocks" ref="preview"></Preview>
-    </main>
-    <footer>
-      <p>Copyright &copy; 2018 fastcampus</p>
-    </footer>
+    <Sidebar :layouts="layoutArray" @select="selectLayout"></Sidebar>
+    <Editor :blocks="blocks" ref="editor" @save="save"></Editor>
+    <Preview :blocks="blocks" ref="preview"></Preview>
   </div>
 </template>
 
@@ -22,18 +14,16 @@ import Preview from './preview.vue';
 
 export default {
   props: {
-    title: {
+    value: {
       type: String,
-      default: 'Unititled'
+      default: '[]'
     },
     layouts: {
       type: Array,
-      default: function () { return []; }
+      default: function() {
+        return [];
+      }
     },
-    value: {
-      type: [String, Promise],
-      default: '[]'
-    }
   },
   data: () => ({
     layoutArray: [],
@@ -57,7 +47,6 @@ export default {
     }
   },
   created: function() {
-    console.log('created');
     try {
       // precompile all layout templates
       this.layoutArray = this.layouts.map(layout => {
@@ -79,7 +68,9 @@ export default {
       // TODO: parse html!
       // AS-IS: parse source json string
       // replace layout id => layout object
-      this.blocks = JSON.parse(this.value).map(block => Object.assign({}, block, { layout: this.layoutMap[block.layout] }));
+      this.blocks = JSON.parse(this.value).map(block =>
+        Object.assign({}, block, { layout: this.layoutMap[block.layout] })
+      );
     } catch (err) {
       console.error('bad or missing value', err);
       this.blocks = [];
@@ -99,37 +90,7 @@ export default {
 <style lang="scss" scoped>
 .fc-composer {
   display: flex;
-  flex-direction: column;
-  height: 100vh;
   overflow: hidden;
-
-  > header {
-    display: flex;
-    flex: 0 0 3rem;
-    height: 3rem;
-    background: cyan;
-
-    h1 {
-      flex: 1 1 0;
-      margin: 0;
-      padding: 0;
-    }
-  }
-
-  > main {
-    flex: 1 1 0;
-    display: flex;
-  }
-
-  > footer {
-    flex: 0 0 2rem;
-    height: 2rem;
-    background: cyan;
-
-    p {
-      margin: 0;
-      padding: 0;
-    }
-  }
+  height: 100vh;
 }
 </style>

@@ -24,8 +24,8 @@ export default {
 .fc-sidebar {
   display: flex;
   flex-direction: column;
-  flex: 0 0 10rem;
-  width: 10rem;
+  flex: 0 0 15rem;
+  width: 15rem;
 
   header {
     display: flex;

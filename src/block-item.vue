@@ -1,6 +1,6 @@
 <template>
   <div class="fc-block-item">
-    <button @click="$emit('select', block)">{{block.layout.id}}</button>
+    <button @click="$emit('select', block)">{{block.layout.id}}<small>({{block.layout.description}})</small></button>
     <button @click="$emit('remove', block)"><i class="fas fa-trash-alt"></i></button>
     <button @click="$emit('up', block)"><i class="fas fa-arrow-up"></i></button>
     <button @click="$emit('down', block)"><i class="fas fa-arrow-down"></i></button>
