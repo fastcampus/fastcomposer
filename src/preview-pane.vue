@@ -2,6 +2,7 @@
   <div class="fc-preview">
     <header>
       <h3>preview</h3>
+      <a href="/?wholeview" target="_blank">new_page_view</a>
       <button @click="zoomIn"><i class="fas fa-search-plus"></i></button>
       <button @click="zoomOut"><i class="fas fa-search-minus"></i></button>
     </header>
@@ -25,12 +26,33 @@ export default {
     BlockPreview,
   },
   props: {
-    blocks: Array,
+    layouts: Array,
+  },
+  created() {
+    const parseLocal = () => {
+      const data = window.localStorage.getItem('refresh');
+      const data2 = JSON.parse(data);
+      const layoutArray = this.$props.layouts;
+
+      this.$data.blocks = data2.map(e => {
+        const layout = layoutArray.filter(ele => e.id === ele.id)[0];
+
+        const result = Object.assign(
+          {},
+          { layout },
+          { values: e.values }
+        );
+        return result;
+      });
+    };
+
+    const interval = setInterval(parseLocal, 100);
   },
   data() {
     return {
       activeBlock: null,
       zoom: 1,
+      blocks: [],
     };
   },
   methods: {

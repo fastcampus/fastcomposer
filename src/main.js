@@ -44,6 +44,7 @@ new Vue({
   created() {
     axios.get('/sample.json').then(res => {
       console.log(res);
+
       this.$refs.composer.openJson(JSON.stringify(res.data));
     });
     this.$root.$on('fc-upload', event => console.log('GLOBAL fc-upload', event));

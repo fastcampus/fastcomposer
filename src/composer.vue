@@ -1,8 +1,8 @@
 <template>
   <div class="fc-composer">
-    <sidebar-pane :layouts="layoutArray" @select="onSelectLayout"></sidebar-pane>
-    <editor-pane :blocks="blocks" ref="editor" @select="onSelectBlock" @save="save"></editor-pane>
-    <preview-pane :blocks="blocks" ref="preview"></preview-pane>
+    <sidebar-pane v-if="!whole" :layouts="layoutArray" @select="onSelectLayout"></sidebar-pane>
+    <editor-pane v-if="!whole" :blocks="blocks" ref="editor" @select="onSelectBlock" @save="save"></editor-pane>
+    <preview-pane v-if="loadDone" ref="preview" :layouts="layoutArray"></preview-pane>
   </div>
 </template>
 
@@ -37,6 +37,8 @@ export default {
       layoutArray: [],
       layoutMap: {},
       blocks: [],
+      whole: false,
+      loadDone: false,
     };
   },
   methods: {
@@ -98,6 +100,11 @@ export default {
           this.blocks = JSON.parse(json).map(block => {
             return Object.assign({ id: this.nextBlockId() }, block, { layout: this.layoutMap[block.layout] });
           });
+
+          if (!this.$data.whole) {
+            this.inputLocal();
+          }
+
           console.log('open', this.blocks);
         })
         .catch(err => {
@@ -105,9 +112,34 @@ export default {
           this.blocks = [];
         });
     },
+    inputLocal() {
+      const mapped = this.$data.blocks.map((e, i) => ({ order: i, values: e.values, id: e.layout.id }));
+      const json = JSON.stringify(mapped);
+      window.localStorage.setItem('refresh', json);
+    },
   },
   async created() {
-    return Promise.all([this.openLayouts(this.layouts), this.openJson(this.value)]);
+    const wholeViewTest = /^\?wholeview$/;
+    const wholeViewTrue = wholeViewTest.test(window.location.search);
+
+    if (wholeViewTrue) {
+      this.$data.whole = true;
+      window.onstorage = e => {
+        if (e.key === 'refresh') {
+          console.log('refresh!!!');
+        } else {
+          console.log('something changed');
+        }
+      };
+    } else {
+      const interval = setInterval(this.inputLocal, 100);
+    }
+
+    return Promise.all([this.openLayouts(this.layouts), this.openJson(this.value)])
+      .then(() => {
+        this.loadDone = true;
+      })
+      .catch(err => console.log('initial load err: ', err));
   },
 };
 </script>
