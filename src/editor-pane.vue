@@ -65,6 +65,7 @@ export default {
         // this.blocks[blockIndex - 1] = tempBlock;
         this.$set(this.blocks, blockIndex, this.blocks[blockIndex - 1]);
         this.$set(this.blocks, blockIndex - 1, tempBlock);
+        this.$emit('broadcasting')
       }
     },
     downBlock(block) {
@@ -75,6 +76,7 @@ export default {
         // this.blocks[blockIndex + 1] = tempBlock;
         this.$set(this.blocks, blockIndex, this.blocks[blockIndex + 1]);
         this.$set(this.blocks, blockIndex + 1, tempBlock);
+        this.$emit('broadcasting')
       }
     },
     save() {

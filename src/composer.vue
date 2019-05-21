@@ -1,8 +1,8 @@
 <template>
   <div class="fc-composer">
     <sidebar-pane v-if="!whole" :layouts="layoutArray" @select="onSelectLayout"></sidebar-pane>
-    <editor-pane v-if="!whole" :blocks="blocks" ref="editor" @select="onSelectBlock" @save="save"></editor-pane>
-    <preview-pane v-if="loadDone" ref="preview" :layouts="layoutArray"></preview-pane>
+    <editor-pane v-if="!whole" :blocks="blocks" ref="editor" @select="onSelectBlock" @save="save" @broadcasting="broadcasting"></editor-pane>
+    <preview-pane v-if="loadDone" ref="preview" :layouts="layoutArray" :broadcast="broadcast"></preview-pane>
   </div>
 </template>
 
@@ -39,6 +39,7 @@ export default {
       blocks: [],
       whole: false,
       loadDone: false,
+      broadcast: null
     };
   },
   methods: {
@@ -56,6 +57,7 @@ export default {
         values: cloneDeep(layout.values) || {}, // clone!! not ref!
       };
       this.$refs.editor.addBlock(block);
+      this.broadcasting()
     },
     onSelectBlock(block) {
       this.$refs.preview.selectBlock(block);
@@ -102,7 +104,7 @@ export default {
           });
 
           if (!this.$data.whole) {
-            this.inputLocal();
+            this.broadcasting();
           }
 
           console.log('open', this.blocks);
@@ -112,28 +114,22 @@ export default {
           this.blocks = [];
         });
     },
-    inputLocal() {
+    broadcasting() {
       const mapped = this.$data.blocks.map((e, i) => ({ order: i, values: e.values, id: e.layout.id }));
       const json = JSON.stringify(mapped);
-      window.localStorage.setItem('refresh', json);
+      this.$data.broadcast.postMessage(json)
     },
   },
   async created() {
+
     const wholeViewTest = /^\?wholeview$/;
     const wholeViewTrue = wholeViewTest.test(window.location.search);
 
+    this.$data.broadcast = new window.BroadcastChannel('broadcast')
     if (wholeViewTrue) {
       this.$data.whole = true;
-      window.onstorage = e => {
-        if (e.key === 'refresh') {
-          console.log('refresh!!!');
-        } else {
-          console.log('something changed');
-        }
-      };
-    } else {
-      const interval = setInterval(this.inputLocal, 100);
     }
+    this.broadcasting()
 
     return Promise.all([this.openLayouts(this.layouts), this.openJson(this.value)])
       .then(() => {

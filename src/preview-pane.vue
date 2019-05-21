@@ -27,26 +27,28 @@ export default {
   },
   props: {
     layouts: Array,
+    broadcast: BroadcastChannel,
+    // just proty type? no way...
   },
   created() {
-    const parseLocal = () => {
-      const data = window.localStorage.getItem('refresh');
-      const data2 = JSON.parse(data);
+    const wholeViewTest = /^\?wholeview$/;
+    const wholeViewTrue = wholeViewTest.test(window.location.search);
+
+    const parseLocal = json => {
+      const data2 = JSON.parse(json);
       const layoutArray = this.$props.layouts;
 
       this.$data.blocks = data2.map(e => {
         const layout = layoutArray.filter(ele => e.id === ele.id)[0];
 
-        const result = Object.assign(
-          {},
-          { layout },
-          { values: e.values }
-        );
+        const result = Object.assign({}, { layout }, { values: e.values });
         return result;
       });
     };
 
-    const interval = setInterval(parseLocal, 100);
+    if (wholeViewTrue) {
+      this.$props.broadcast.onmessage = e => parseLocal(e.data);
+    }
   },
   data() {
     return {
