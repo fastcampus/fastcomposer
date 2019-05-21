@@ -2,6 +2,10 @@
   <div class="fc-preview">
     <header>
       <h3>preview</h3>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-outline-secondary" @click="toggleLayerKits">Layer Kits on/off</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" @click="toggleLayers">Layers on/off</button>
+      </div>
       <button @click="zoomIn"><i class="fas fa-search-plus"></i></button>
       <button @click="zoomOut"><i class="fas fa-search-minus"></i></button>
     </header>
@@ -43,6 +47,12 @@ export default {
     zoomOut() {
       this.zoom = Math.max(this.zoom - 0.25, 0.25);
     },
+    toggleLayerKits() {
+      this.$emit('toggleLayerKits');
+    },
+    toggleLayers() {
+      this.$emit('toggleLayers');
+    }
   },
 };
 </script>

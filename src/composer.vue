@@ -1,8 +1,22 @@
 <template>
   <div class="fc-composer">
-    <sidebar-pane :layouts="layoutArray" @select="onSelectLayout"></sidebar-pane>
-    <editor-pane :blocks="blocks" ref="editor" @select="onSelectBlock" @save="save"></editor-pane>
-    <preview-pane :blocks="blocks" ref="preview"></preview-pane>
+    <sidebar-pane
+      :layouts="layoutArray"
+      v-if="isLayerKits"
+      @select="onSelectLayout"
+    ></sidebar-pane>
+    <editor-pane
+      :blocks="blocks"
+      v-if="isLayers"
+      ref="editor"
+      @select="onSelectBlock"
+      @save="save"
+    ></editor-pane>
+    <preview-pane
+      :blocks="blocks"
+      @toggleLayerKits="toggleLayerKits"
+      @toggleLayers="onToggleLayers"
+      ref="preview"></preview-pane>
   </div>
 </template>
 
@@ -34,6 +48,8 @@ export default {
   },
   data() {
     return {
+      isLayerKits: true,
+      isLayers: true,
       layoutArray: [],
       layoutMap: {},
       blocks: [],
@@ -104,6 +120,12 @@ export default {
           console.error('bad or missing value', err);
           this.blocks = [];
         });
+    },
+    toggleLayerKits() {
+      this.isLayerKits = !this.isLayerKits;
+    },
+    onToggleLayers() {
+      this.isLayers = !this.isLayers;
     },
   },
   async created() {
