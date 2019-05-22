@@ -9,7 +9,7 @@ const srcDir = path.resolve(__dirname, 'public/layouts');
 const layouts = [];
 const styles = [];
 
-const indexTemplate = _.template(fs.readFileSync(path.resolve(srcDir, 'index.ejs'), 'utf8'));
+const indexTemplate = _.template(fs.readFileSync(path.resolve(srcDir, 'header.vue.ejs'), 'utf8'));
 const previewTemplate = _.template(fs.readFileSync(path.resolve(srcDir, 'preview.ejs'), 'utf8'));
 
 fs.readdirSync(srcDir).forEach(name => {
@@ -32,11 +32,11 @@ fs.readdirSync(srcDir).forEach(name => {
     const cssFile = path.resolve(dir, 'style.css');
     fs.writeFileSync(cssFile, style);
 
-    const previewFile = path.resolve(dir, 'index.html');
+    const previewFile = path.resolve(dir, 'header.vue.html');
     fs.writeFileSync(previewFile, previewTemplate({ $markdown: marked, layout }));
   }
 });
 
 fs.writeFileSync(path.resolve(srcDir, 'all.json'), JSON.stringify(layouts, null, 2));
 fs.writeFileSync(path.resolve(srcDir, 'all.css'), styles.join('\n'));
-fs.writeFileSync(path.resolve(srcDir, 'index.html'), indexTemplate({ $markdown: marked, layouts }));
+fs.writeFileSync(path.resolve(srcDir, 'header.vue.html'), indexTemplate({ $markdown: marked, layouts }));

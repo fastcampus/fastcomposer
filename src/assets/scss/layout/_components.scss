@@ -1,0 +1,254 @@
+/*
+* componenets
+*/
+html, body {
+  background-color: $primary;
+}
+
+.fc-composer {
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  padding-top: $header-size;
+  padding-right: $sidebar-size;
+  padding-bottom: 2rem;
+  height: 100vh;
+  font-size: $font-size;
+
+  &__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1.8rem;
+    padding-right: 1.8rem;
+    width: percentage(1);
+    height: $header-size;
+    //background-color: $secondary;
+
+    &__h {
+      font-size: 1.8rem;
+      color: $white;
+    }
+
+    &__utils {
+      display: flex;
+
+      .fc-utils__btn {
+        flex: 1;
+        align-items: center;
+        display: flex;
+        margin-left: 0.8rem;
+        color: $white;
+      }
+    }
+  }
+}
+
+.fc-preview {
+  overflow: scroll;
+  position: relative;
+  flex: 1;
+  margin-left: 1.8rem;
+  margin-right: 1.8rem;
+  background-color: $white;
+  box-shadow: 0 3px 10px rgba($black, .23), 0 3px 10px rgba($black, .16);
+
+  &__checkbox {
+    &:checked {
+      + .fc-preview__label {
+        outline-color: $grey-l5;
+      }
+      
+      ~ .fc-block__edit {
+        display: block;
+      }
+    }
+  }
+
+  &__label {
+    display: block;
+    outline: .1rem dashed transparent;
+    outline-offset: -.1rem;
+    @include transition(opacity, 0.2s);
+
+    &:hover {
+      outline-color: $grey-l5;
+    }
+  }
+
+  &__save {
+    position: fixed;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    z-index: 101;
+    width: 4.5rem;
+    height: 4.5rem;
+    background-color: $accent;
+    border-radius: percentage(1/2);
+    color: $white;
+  }
+}
+
+.fc-sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  padding-top: $header-size;
+  padding-bottom: 2rem;
+  width: percentage(1);
+  max-width: $sidebar-size;
+  color: $white;
+
+  &__list {
+    overflow: scroll;
+    box-sizing: border-box;
+    padding: 1.2rem .9rem;
+    height: percentage(1);
+    background-color: $secondary;
+
+    li {
+      & + li {
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    width: percentage(1);
+    color: $white;
+
+    &__info {
+      flex: 1;
+      padding-top: .5rem;
+      padding-left: 1rem;
+      padding-bottom: .5rem;
+      text-align: left;
+    }
+
+    &__name {
+      display: block;
+      margin-bottom: .5rem;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.8rem 0 1.8rem 0.6rem;
+    background-color: $secondary;
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+    color: $white;
+    transform: translate3d(-100%, -50%, 0);
+  }
+}
+
+.fc-block {
+  position: relative;
+
+  &__item {
+
+  }
+
+  &__edit {
+    display: none;
+    position: relative;
+    margin: 0 1.8rem 1.2rem;
+  }
+
+  &__form {
+    padding: 1.2rem 1.2rem;
+    background-color: $dimmed;
+
+    &__fieldset {
+      padding: 1.8rem 1.8rem;
+      border-radius: .5rem;
+      background-color: $white;
+
+      & + & {
+        margin-top: 1rem;
+      }
+    }
+
+    &__label {
+      display: block;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      border-bottom: .1rem solid $grey-l5;
+    }
+
+    &__name {
+      display: inline-block;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      margin-bottom: -.1rem;
+      border-bottom: .1rem solid $secondary;
+    }
+
+    &__input {
+      box-sizing: border-box;
+      display: block;
+      border: 0 none;
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+      width: percentage(1);
+      height: 4.2rem;
+      font-size: 1.6rem;
+      background-color: $blue-l2;
+      border-radius: .5rem;
+      color: $white;
+      outline: 0 none;
+      @include transition(null, 0.2s);
+
+      &:focus {
+        background-color: $accent;
+        color: $white;
+      }
+    }
+  }
+
+  &__utils {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+    background-color: $dimmed;
+    transform: translateY(-100%);
+
+    &__btn {
+      display: flex;
+      flex: 1;
+      padding: 0.4rem 0.2rem;
+
+      &:hover {
+        .material-icons {
+          color: $primary;
+        }
+      }
+    }
+
+    .material-icons {
+      color: $placehold;
+    }
+  }
+}

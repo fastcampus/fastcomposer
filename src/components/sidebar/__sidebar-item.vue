@@ -1,13 +1,11 @@
 <template>
-  <div class="fc-layout-item">
-    <button @click="$emit('select', layout)">
-      <img :src="layout.icon" alt="" />
-      <p>{{ layout.id }}</p>
-      <p>
-        <small>{{ layout.description }}</small>
-      </p>
-    </button>
-  </div>
+  <button class="fc-sidebar__item" @click="$emit('select', layout)">
+    <img :src="layout.icon" alt="" />
+    <span class="fc-sidebar__item__info">
+      <strong class="fc-sidebar__item__name">{{ layout.id }}</strong>
+      {{ layout.description }}
+    </span>
+  </button>
 </template>
 
 <script>

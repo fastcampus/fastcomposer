@@ -1,47 +1,59 @@
 <template>
-  <div class="fc-composer">
-    <sidebar-pane :layouts="layoutArray" @select="onSelectLayout"></sidebar-pane>
-    <editor-pane :blocks="blocks" ref="editor" @select="onSelectBlock" @save="save"></editor-pane>
-    <preview-pane :blocks="blocks" ref="preview"></preview-pane>
+  <div class="fc-composer fc-composer--wide">
+    <ComposerHeader />
+
+    <composer-preview
+      ref="preview"
+      :blocks="blocks"
+      @save="save"
+      @select="onSelectBlock"
+    ></composer-preview>
+
+    <composer-sidebar
+      :layouts="layoutArray"
+      @select="onSelectLayout"
+    ></composer-sidebar>
   </div>
 </template>
 
 <script>
 import { template, cloneDeep } from 'lodash';
 
-import SidebarPane from './sidebar-pane.vue';
-import EditorPane from './editor-pane.vue';
-import PreviewPane from './preview-pane.vue';
+import ComposerHeader from '../components/header/header.vue';
+import ComposerPreview from '../components/preview/preview.vue';
+import ComposerSidebar from '../components/sidebar/sidebar.vue';
 
 export default {
   name: 'composer',
   components: {
-    SidebarPane,
-    EditorPane,
-    PreviewPane,
+    ComposerHeader,
+    ComposerPreview,
+    ComposerSidebar
   },
   props: {
     value: {
       type: String,
-      default: '[]',
+      default: '[]'
     },
     layouts: {
       type: Array,
       default: () => {
         return [];
-      },
-    },
+      }
+    }
   },
   data() {
     return {
       layoutArray: [],
       layoutMap: {},
-      blocks: [],
+      blocks: []
     };
   },
   methods: {
     nextBlockId() {
-      const seq = (this._blockIdSeq = this._blockIdSeq ? ++this._blockIdSeq : 1);
+      const seq = (this._blockIdSeq = this._blockIdSeq
+        ? ++this._blockIdSeq
+        : 1);
       const nonce = Math.random()
         .toString(36)
         .substr(2, 9);
@@ -51,9 +63,9 @@ export default {
       const block = {
         id: this.nextBlockId(),
         layout: layout,
-        values: cloneDeep(layout.values) || {}, // clone!! not ref!
+        values: cloneDeep(layout.values) || {} // clone!! not ref!
       };
-      this.$refs.editor.addBlock(block);
+      this.$refs.preview.addBlock(block);
     },
     onSelectBlock(block) {
       this.$refs.preview.selectBlock(block);
@@ -74,7 +86,9 @@ export default {
         .then(layouts => {
           // precompile all layout templates
           this.layoutArray = layouts.map(layout => {
-            return Object.assign(layout, { templateFunc: template(layout.template) });
+            return Object.assign(layout, {
+              templateFunc: template(layout.template)
+            });
           });
           // lookup table for layout id => layout object
           this.layoutMap = this.layoutArray.reduce((layoutMap, layout) => {
@@ -96,7 +110,9 @@ export default {
           // AS-IS: parse source json string
           // replace layout id => layout object, give id if absent
           this.blocks = JSON.parse(json).map(block => {
-            return Object.assign({ id: this.nextBlockId() }, block, { layout: this.layoutMap[block.layout] });
+            return Object.assign({ id: this.nextBlockId() }, block, {
+              layout: this.layoutMap[block.layout]
+            });
           });
           console.log('open', this.blocks);
         })
@@ -104,18 +120,17 @@ export default {
           console.error('bad or missing value', err);
           this.blocks = [];
         });
-    },
+    }
   },
   async created() {
-    return Promise.all([this.openLayouts(this.layouts), this.openJson(this.value)]);
-  },
+    return Promise.all([
+      this.openLayouts(this.layouts),
+      this.openJson(this.value)
+    ]);
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-.fc-composer {
-  display: flex;
-  overflow: hidden;
-  height: 100vh;
-}
+<style lang="scss">
+@import '../assets/scss/style.scss';
 </style>

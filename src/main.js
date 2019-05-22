@@ -3,10 +3,14 @@
 //
 import Vue from 'vue';
 import axios from 'axios';
-import Composer from './composer.vue';
+import Composer from './views/composer.vue';
+
+// TEST
+import layouts from '@fastcampus/layouts/src/all.json';
+import '@fastcampus/layouts/src/all.css';
 
 // sample layouts with es6 module:
-import layouts from '../public/layouts';
+// import layouts from '../public/layouts';
 
 // sample layouts with commonjs bundle
 // need to build with `npm run build-layouts` or else
@@ -42,7 +46,7 @@ new Vue({
     });
   },
   created() {
-    axios.get('/sample.json').then(res => {
+    axios.get(layouts).then(res => {
       console.log(res);
       this.$refs.composer.openJson(JSON.stringify(res.data));
     });
