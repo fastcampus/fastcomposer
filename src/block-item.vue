@@ -16,12 +16,7 @@
     <button @click="$emit('remove', block)">
       <i class="fas fa-trash-alt"></i>
     </button>
-    <button @click="$emit('up', block)">
-      <i class="fas fa-arrow-up"></i>
-    </button>
-    <button @click="$emit('down', block)">
-      <i class="fas fa-arrow-down"></i>
-    </button>
+    <button class="row-drag-handle"><i class="fas fa-bars"></i></button>
   </div>
 </template>
 

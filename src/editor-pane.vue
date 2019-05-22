@@ -5,32 +5,52 @@
       <button @click="save"><i class="fas fa-save"></i></button>
     </header>
     <main>
-      <template v-for="block in blocks">
-        <block-item
-          :block="block"
-          :key="block.id"
-          :active="block === activeBlock"
-          @select="selectBlock(block)"
-          @remove="removeBlock(block)"
-          @up="upBlock(block)"
-          @down="downBlock(block)"
-        ></block-item>
-        <block-form v-if="block === activeBlock" :block="block" :key="block.id + '-form'"></block-form>
-      </template>
+      <Container @drop="onDrop" drag-handle-selector=".row-drag-handle">
+        <Draggable v-for="block in blocks" :key="block.id">
+          <block-item
+            :block="block"
+            :active="block === activeBlock"
+            @select="selectBlock(block)"
+            @remove="removeBlock(block)"
+          ></block-item>
+          <block-form v-if="block === activeBlock" :block="block" :key="block.id + '-form'"></block-form>
+        </Draggable>
+      </Container>
     </main>
   </div>
 </template>
 
 <script>
+import { Container, Draggable } from "vue-smooth-dnd";
 import marked from 'marked';
 import BlockItem from './block-item.vue';
 import BlockForm from './block-form.vue';
+
+const applyDrag = (arr, dragResult) => {
+  const { removedIndex, addedIndex, payload } = dragResult;
+  if (removedIndex === null && addedIndex === null) return arr;
+
+  const result = arr;
+  let itemToAdd = payload;
+
+  if (removedIndex !== null) {
+    itemToAdd = result.splice(removedIndex, 1)[0];
+  }
+
+  if (addedIndex !== null) {
+    result.splice(addedIndex, 0, itemToAdd);
+  }
+
+  return result;
+};
 
 export default {
   name: 'editor-pane',
   components: {
     BlockItem,
     BlockForm,
+    Container,
+    Draggable,
   },
   props: {
     blocks: Array,
@@ -42,6 +62,9 @@ export default {
     };
   },
   methods: {
+    onDrop(dropResult) {
+      this.blocks = applyDrag(this.blocks, dropResult);
+    },
     selectBlock(block) {
       this.activeBlock = block;
       this.$emit('select', block);
@@ -55,26 +78,6 @@ export default {
       if (blockIndex !== -1) {
         this.blocks.splice(blockIndex, 1);
         this.selectBlock(null);
-      }
-    },
-    upBlock(block) {
-      const blockIndex = this.blocks.indexOf(block);
-      if (blockIndex > 0) {
-        const tempBlock = this.blocks[blockIndex];
-        // this.blocks[blockIndex] = this.blocks[blockIndex - 1];
-        // this.blocks[blockIndex - 1] = tempBlock;
-        this.$set(this.blocks, blockIndex, this.blocks[blockIndex - 1]);
-        this.$set(this.blocks, blockIndex - 1, tempBlock);
-      }
-    },
-    downBlock(block) {
-      const blockIndex = this.blocks.indexOf(block);
-      if (blockIndex !== -1 && blockIndex < this.blocks.length - 1) {
-        const tempBlock = this.blocks[blockIndex];
-        // this.blocks[blockIndex] = this.blocks[blockIndex + 1];
-        // this.blocks[blockIndex + 1] = tempBlock;
-        this.$set(this.blocks, blockIndex, this.blocks[blockIndex + 1]);
-        this.$set(this.blocks, blockIndex + 1, tempBlock);
       }
     },
     save() {
