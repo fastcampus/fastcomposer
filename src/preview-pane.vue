@@ -3,8 +3,8 @@
     <header>
       <h3>preview</h3>
       <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-outline-secondary" @click="toggleLayerKits">Layer Kits on/off</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary" @click="toggleLayers">Layers on/off</button>
+        <button type="button" @click="toggleLayerKits"><i class="fas" v-bind:class="[isLayerKits ? 'fa-toggle-on' : 'fa-toggle-off']"></i></button>
+        <button type="button" @click="toggleLayers"><i class="fas" v-bind:class="[isLayers ? 'fa-toggle-on' : 'fa-toggle-off']"></i></button>
       </div>
       <button @click="zoomIn"><i class="fas fa-search-plus"></i></button>
       <button @click="zoomOut"><i class="fas fa-search-minus"></i></button>
@@ -28,9 +28,7 @@ export default {
   components: {
     BlockPreview,
   },
-  props: {
-    blocks: Array,
-  },
+  props: ['blocks', 'isLayers', 'isLayerKits'],
   data() {
     return {
       activeBlock: null,

@@ -14,6 +14,8 @@
     ></editor-pane>
     <preview-pane
       :blocks="blocks"
+      :isLayers="isLayers"
+      :isLayerKits="isLayerKits"
       @toggleLayerKits="toggleLayerKits"
       @toggleLayers="onToggleLayers"
       ref="preview"></preview-pane>
