@@ -18,11 +18,11 @@
           :placeholder="param.description"
           v-model="values[param.name]"
         />
-        <file-upload
+        <preview-edit
           :name="param.name"
           accept="image/*"
           @upload="upload"
-        ></file-upload>
+        ></preview-edit>
       </template>
 
       <template v-else>
@@ -41,12 +41,12 @@
 
 <script>
 import debounce from 'lodash/debounce';
-import FileUpload from './__preview-edit.vue';
+import PreviewEdit from './__preview-edit.vue';
 
 export default {
-  name: 'block-form',
+  name: 'preview-form',
   components: {
-    FileUpload
+    PreviewEdit
   },
   props: {
     block: Object

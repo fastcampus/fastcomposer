@@ -1,6 +1,10 @@
 <template>
   <div class="fc-block__utils">
-    <button class="fc-block__utils__btn" @click="$emit('toggle', block)">
+    <button
+      class="fc-block__utils__btn"
+      @click="$emit('toggle', block)"
+      :class="mode"
+    >
       <i class="material-icons">&#xE417;</i>
     </button>
     <button class="fc-block__utils__btn" @click="$emit('remove', block)">

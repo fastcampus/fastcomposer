@@ -69,18 +69,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fc-block-preview {
-  flex: 0 0 0;
-  width: 100%;
-  outline: 1px dashed lightgray;
-
-  &.active {
-    outline: 1px dashed fuchsia;
-  }
-
-  &.hidden {
-    opacity: 0.5;
-    background-color: olive;
-  }
-}
 </style>

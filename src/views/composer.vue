@@ -1,6 +1,14 @@
 <template>
-  <div class="fc-composer fc-composer--wide">
-    <ComposerHeader />
+  <div
+    class="fc-composer"
+    :class="[
+      viewport
+        ? { ['fc-composer--' + viewport]: viewport }
+        : 'fc-composer--landscape',
+      visible && 'fc-composer--openmenu'
+    ]"
+  >
+    <ComposerHeader @toggle="toggleViewport" :mode="viewport" />
 
     <composer-preview
       ref="preview"
@@ -11,6 +19,7 @@
 
     <composer-sidebar
       :layouts="layoutArray"
+      @visible="onToggleMenu"
       @select="onSelectLayout"
     ></composer-sidebar>
   </div>
@@ -46,10 +55,18 @@ export default {
     return {
       layoutArray: [],
       layoutMap: {},
-      blocks: []
+      blocks: [],
+      viewport: '',
+      visible: false
     };
   },
   methods: {
+    toggleViewport(mode) {
+      this.viewport = mode;
+    },
+    onToggleMenu() {
+      this.visible = !this.visible;
+    },
     nextBlockId() {
       const seq = (this._blockIdSeq = this._blockIdSeq
         ? ++this._blockIdSeq
@@ -133,4 +150,75 @@ export default {
 
 <style lang="scss">
 @import '../assets/scss/style.scss';
+
+.fc-composer {
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: $header-size;
+  padding-bottom: 2rem;
+  max-width: percentage(1);
+  width: percentage(1);
+  height: 100vh;
+  font-size: $font-size;
+  @include transition(null, 0.3s);
+
+  &--flush {
+    padding: 0;
+
+    .fc-preview {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &--landscape {
+    padding-right: 0;
+  }
+
+  &--openmenu {
+    padding-right: $sidebar-size;
+  }
+
+  &--portrait {
+    width: percentage(1);
+    max-width: $w-mobile;
+    padding-right: 0;
+  }
+
+  &__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 101;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1.8rem;
+    padding-right: 1.8rem;
+    width: percentage(1);
+    height: $header-size;
+
+    &__h {
+      font-size: 1.8rem;
+      color: $white;
+    }
+
+    &__utils {
+      display: flex;
+
+      .fc-utils__btn {
+        flex: 1;
+        align-items: center;
+        display: flex;
+        margin-left: 0.8rem;
+        color: $white;
+      }
+    }
+  }
+}
 </style>

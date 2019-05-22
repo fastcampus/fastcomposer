@@ -145,6 +145,10 @@ button {
   color: $color-body;
 }
 
+html, body {
+  background-color: $primary;
+}
+
 body {
   min-width: 320px;
 }
@@ -157,4 +161,9 @@ img {
   max-width: 100%;
   height: auto;
   vertical-align: top;
+}
+
+button {
+  box-sizing: border-box;
+  padding: 0;
 }
