@@ -13,7 +13,6 @@
             @select="selectBlock(block)"
             @remove="removeBlock(block)"
           ></block-item>
-          <block-form v-if="block === activeBlock" :block="block" :key="block.id + '-form'"></block-form>
         </Draggable>
       </Container>
     </main>
@@ -24,7 +23,6 @@
 import { Container, Draggable } from "vue-smooth-dnd";
 import marked from 'marked';
 import BlockItem from './block-item.vue';
-import BlockForm from './block-form.vue';
 
 const applyDrag = (arr, dragResult) => {
   const { removedIndex, addedIndex, payload } = dragResult;
@@ -48,13 +46,10 @@ export default {
   name: 'editor-pane',
   components: {
     BlockItem,
-    BlockForm,
     Container,
     Draggable,
   },
-  props: {
-    blocks: Array,
-  },
+  props: ['blocks'],
   data() {
     return {
       activeBlock: null,

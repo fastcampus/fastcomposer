@@ -9,6 +9,14 @@
       <button @click="zoomIn"><i class="fas fa-search-plus"></i></button>
       <button @click="zoomOut"><i class="fas fa-search-minus"></i></button>
     </header>
+    <div v-draggable v-show="activeBlock" style="position:fixed;border:0.1rem solid;background-color:#fff;">
+      <div style="position:relative; margin: 1rem;">
+        <div class="btn-group" style="position: absolute; right: 0;">
+          <button type="button" @click="unSelectBlack"><i class="far fa-window-close"></i></button>
+        </div>
+        <block-form v-if="activeBlock" :block="activeBlock" :key="activeBlock.id + '-form'"></block-form>
+      </div>
+    </div>
     <main :style="{ zoom }">
       <block-preview
         v-for="(block, blockIndex) in blocks"
@@ -22,11 +30,18 @@
 
 <script>
 import BlockPreview from './block-preview.vue';
+import BlockForm from './block-form.vue';
+import { Draggable } from 'draggable-vue-directive';
+
 
 export default {
   name: 'preview-pane',
+  directives: {
+    Draggable,
+  },
   components: {
     BlockPreview,
+    BlockForm,
   },
   props: ['blocks', 'isLayers', 'isLayerKits'],
   data() {
@@ -38,6 +53,9 @@ export default {
   methods: {
     selectBlock(block) {
       this.activeBlock = block;
+    },
+    unSelectBlack() {
+      this.activeBlock = null;
     },
     zoomIn() {
       this.zoom = Math.min(this.zoom + 0.25, 2);
