@@ -3,6 +3,7 @@
     <header>
       <h3>preview</h3>
       <div class="btn-group">
+        <button type="button" @click="requestFullscreen"><i class="fas fa-expand"></i></button>
         <button type="button" @click="toggleLayerKits"><i class="fas" v-bind:class="[isLayerKits ? 'fa-toggle-on' : 'fa-toggle-off']"></i></button>
         <button type="button" @click="toggleLayers"><i class="fas" v-bind:class="[isLayers ? 'fa-toggle-on' : 'fa-toggle-off']"></i></button>
       </div>
@@ -33,7 +34,6 @@ import BlockPreview from './block-preview.vue';
 import BlockForm from './block-form.vue';
 import { Draggable } from 'draggable-vue-directive';
 
-
 export default {
   name: 'preview-pane',
   directives: {
@@ -51,6 +51,15 @@ export default {
     };
   },
   methods: {
+    requestFullscreen() {
+      const targetElement = this.$el.getElementsByTagName('main')[0];
+      const requestFullscreen = (targetElement.requestFullscreen
+        || targetElement.msRequestFullscreen
+        || targetElement.mozRequestFullScreen
+        || targetElement.webkitRequestFullscreen).bind(targetElement);
+
+      requestFullscreen();
+    },
     selectBlock(block) {
       this.activeBlock = block;
     },
@@ -103,6 +112,9 @@ export default {
     overflow: scroll;
     padding: 1rem;
     transform-origin: top left;
+    &:fullscreen {
+      background-color: #ffffff;
+    }
   }
 }
 </style>
