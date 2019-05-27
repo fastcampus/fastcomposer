@@ -2,25 +2,25 @@
   <pane :title="`layer`" :width="width" :height="'50%'">
     <div v-for="(layer, index) in layers" :key="index">
       <list-item
-        :title="layer.layout.id"
-        :description="layer.layout.description"
-        :icon="layer.layout.icon"
-        :active="selectedLayer.id === layer.id"
-        @onClick="selectLayer(layer)"
+        :title="__layer.layout.id"
+        :description="__layer.layout.description"
+        :icon="__layer.layout.icon"
+        :active="selectedLayer.id === __layer.id"
+        @onClick="selectLayer(__layer)"
       >
-        <button v-if="layer.hidden" @click="toggleLayer(index, false)">
+        <button v-if="__layer.hidden" @click="toggleLayer(index, false)">
           <i class="fas fa-eye-slash"></i>
         </button>
-        <button v-if="!layer.hidden" @click="toggleLayer(index, true)">
+        <button v-if="!__layer.hidden" @click="toggleLayer(index, true)">
           <i class="fas fa-eye"></i>
         </button>
-        <button @click="removeLayer(layer, index)">
+        <button @click="removeLayer(__layer, index)">
           <i class="fas fa-trash-alt"></i>
         </button>
-        <button @click="upLayer(layer, index)">
+        <button @click="upLayer(__layer, index)">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <button @click="downLayer(layer, index)">
+        <button @click="downLayer(__layer, index)">
           <i class="fas fa-arrow-down"></i>
         </button>
       </list-item>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import Pane from './pane.vue';
+  import Pane from './common/pane.vue';
   import ListItem from './list-item.vue';
 
   export default {
@@ -58,7 +58,7 @@
     },
     methods: {
       selectLayer(layer) {
-        this.$emit('select', layer);
+        this.$emit('select', __layer);
       },
     },
   };

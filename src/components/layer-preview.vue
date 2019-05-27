@@ -5,7 +5,10 @@
     class="fc-layer-preview fc-block fc-layout"
     :class="['fc-layout-' + layer.layout.id, { active: active }, { hidden: this.layer.hidden }]"
     v-html="html"
-  ></div>
+  >
+
+
+  </div>
 </template>
 
 <script>

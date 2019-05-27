@@ -37,8 +37,8 @@
 </template>
 
 <script>
-  import FileUpload from './file-upload.vue';
-  import Pane from './pane.vue';
+  import FileUpload from './common/file-upload.vue';
+  import Pane from './common/pane.vue';
 
 
   export default {

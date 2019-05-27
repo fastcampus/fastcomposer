@@ -11,7 +11,7 @@
 
 <script>
   import ListItem from './list-item.vue';
-  import Pane from './pane.vue';
+  import Pane from './common/pane.vue';
 
   export default {
     name: 'layout',
