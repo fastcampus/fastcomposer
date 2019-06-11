@@ -35,6 +35,10 @@ const app = new Vue({
           console.log('**save: html=', html, 'json=', json);
           alert('check console log');
         },
+        uploadFile(file, data) {
+          console.log('UPLOAD FILE TO STORAGE: META: ', data)
+          alert('check console log');
+        }
       },
     });
   },
