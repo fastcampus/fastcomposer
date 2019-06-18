@@ -5,6 +5,7 @@ import { restructureLayouts } from './utils/utils';
 import Vue from 'vue';
 import axios from 'axios';
 import Composer from './views/composer.vue';
+import Preview from './components/content/preview/preview'
 
 // sample layouts with es6 module:
 import layouts from '../public/layouts/src/all';
@@ -25,10 +26,24 @@ const el = document.querySelector('#app');
 //   layout.icon = require(`../public/layouts/${layout.id}/icon.svg`);
 // });
 
+const routes = {
+  '/': Composer,
+  '/preview': Preview
+}
+
+
 const app = new Vue({
   el,
+  data: {
+    currentRoute: window.location.pathname
+  },
+  computed: {
+    ViewComponent () {
+      return routes[this.currentRoute]
+    }
+  },
   render(createElement) {
-    return createElement(Composer, {
+    return createElement(this.ViewComponent, {
       ref: 'composer',
       on: {
         save(html, json) {

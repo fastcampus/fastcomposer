@@ -7,12 +7,11 @@
   >
     <composer-header/>
     <div class="fc-composer__content">
-      <preview
-        :layers="layers"
-      />
-      <composer-aside
-        :layouts="layouts"
-      />
+      <iframe src="http://localhost:8080/preview"> </iframe>
+      <!--              <preview-->
+      <!--                :layers="layers"-->
+      <!--              />-->
+      <composer-aside :layouts="layouts" />
     </div>
 
     <div class="fc-block__edit" v-if="currentLayer" v-draggable>
@@ -27,15 +26,15 @@
 </template>
 
 <script>
-  import { cloneDeep } from 'lodash';
-  import { Draggable } from 'draggable-vue-directive';
-  import { uniqueId, restructureLayouts } from './../utils/utils';
-  import EventBus from './../event-bus/event-bus';
-  import marked from 'marked';
-  import ComposerHeader from '../components/header/header.vue';
-  import Editor from '../components/editor/editor';
-  import Preview from '../components/content/preview/preview';
-  import ComposerAside from '../components/content/aside/aside';
+import { cloneDeep } from 'lodash';
+import { Draggable } from 'draggable-vue-directive';
+import { uniqueId, restructureLayouts } from './../utils/utils';
+import EventBus from './../event-bus/event-bus';
+import marked from 'marked';
+import ComposerHeader from '../components/header/header.vue';
+import Editor from '../components/editor/editor';
+import Preview from '../components/content/preview/preview';
+import ComposerAside from '../components/content/aside/aside';
 
   export default {
     directives: {
@@ -275,4 +274,8 @@
     color: white;
   }
 
+iframe {
+  width: 1000px;
+  height: 800px;
+}
 </style>
