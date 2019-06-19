@@ -7,7 +7,14 @@
   >
     <composer-header/>
     <div class="fc-composer__content">
-      <iframe src="http://localhost:8080/preview"> </iframe>
+
+
+
+      <iframe src="http://localhost:8080/demo"> </iframe>
+      <demo-input :broadcastChannel="broadcastChannel"></demo-input>
+
+
+
       <!--              <preview-->
       <!--                :layers="layers"-->
       <!--              />-->
@@ -35,6 +42,7 @@ import ComposerHeader from '../components/header/header.vue';
 import Editor from '../components/editor/editor';
 import Preview from '../components/content/preview/preview';
 import ComposerAside from '../components/content/aside/aside';
+import DemoInput from '../components/demo-input'
 
   export default {
     directives: {
@@ -45,8 +53,13 @@ import ComposerAside from '../components/content/aside/aside';
       Preview,
       ComposerAside,
       Editor,
+      DemoInput
     },
     mounted() {
+
+      const broadcastChannel = new BroadcastChannel('broadcastChannel')
+      this.broadcastChannel = broadcastChannel
+
       const getSelectedIndex = layer => this.layers.indexOf(layer);
 
       // function0
@@ -116,6 +129,7 @@ import ComposerAside from '../components/content/aside/aside';
         layers: [],
         currentLayerIndex: -1,
         viewport: '',
+        broadcastChannel: {},
         isVisible: true, // 작업 편의를 위해 임시로
       };
     },
@@ -275,7 +289,7 @@ import ComposerAside from '../components/content/aside/aside';
   }
 
 iframe {
-  width: 1000px;
+  width: 100%;
   height: 800px;
 }
 </style>

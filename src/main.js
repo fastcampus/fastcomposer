@@ -6,6 +6,7 @@ import Vue from 'vue';
 import axios from 'axios';
 import Composer from './views/composer.vue';
 import Preview from './components/content/preview/preview'
+import Demo from './components/demo'
 
 // sample layouts with es6 module:
 import layouts from '../public/layouts/src/all';
@@ -28,7 +29,8 @@ const el = document.querySelector('#app');
 
 const routes = {
   '/': Composer,
-  '/preview': Preview
+  '/preview': Preview,
+  '/demo': Demo
 }
 
 
