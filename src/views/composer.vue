@@ -11,7 +11,7 @@
 
 
       <iframe src="http://localhost:8080/demo"> </iframe>
-      <demo-input :broadcastChannel="broadcastChannel"></demo-input>
+      <demo-input></demo-input>
 
 
 
@@ -56,10 +56,6 @@ import DemoInput from '../components/demo-input'
       DemoInput
     },
     mounted() {
-
-      const broadcastChannel = new BroadcastChannel('broadcastChannel')
-      this.broadcastChannel = broadcastChannel
-
       const getSelectedIndex = layer => this.layers.indexOf(layer);
 
       // function0
@@ -129,7 +125,6 @@ import DemoInput from '../components/demo-input'
         layers: [],
         currentLayerIndex: -1,
         viewport: '',
-        broadcastChannel: {},
         isVisible: true, // 작업 편의를 위해 임시로
       };
     },

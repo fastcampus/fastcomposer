@@ -10,12 +10,19 @@
 <script>
 export default {
   name: 'demo-input',
-  props: ['broadcastChannel'],
   methods: {
     onChange(e) {
-      this.broadcastChannel.postMessage(e.target.value)
-    }
-  }
+      this.bc.postMessage(e.target.value);
+    },
+  },
+  data() {
+    return {
+      bc: {},
+    };
+  },
+  created() {
+    this.bc = new BroadcastChannel('broadcastChannel');
+  },
 };
 </script>
 
