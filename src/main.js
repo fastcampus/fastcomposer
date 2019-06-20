@@ -33,16 +33,26 @@ const routes = {
   '/demo': Demo
 }
 
+const lastWord = str => {
+  const arr = str.split('/');
+  return arr[arr.length - 1] ? arr[arr.length - 1] : arr[arr.length - 2];
+};
 
 const app = new Vue({
   el,
   data: {
-    currentRoute: window.location.pathname
+    currentRoute: window.location.href,
   },
   computed: {
-    ViewComponent () {
-      return routes[this.currentRoute]
-    }
+    ViewComponent() {
+      const target = lastWord(this.currentRoute);
+      const result = Object.keys(routes)
+        .map(e => e.substring(1))
+        .includes(target)
+        ? '/' + target
+        : '/';
+      return routes[result];
+    },
   },
   render(createElement) {
     return createElement(this.ViewComponent, {
@@ -68,4 +78,3 @@ const app = new Vue({
 
 // console.log(layouts); // 실제 layout 도구들...
 // console.log(res.data); // layouts들을 이용하여 data와 결합하여 preview에 보여준다
-
