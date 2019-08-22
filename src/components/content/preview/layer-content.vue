@@ -28,6 +28,13 @@ export default {
   },
   computed: {
     html() {
+      for (const prop in this.layer.values) {
+        const video_id = this.layer.values[prop].split('v=')[1] || this.layer.values[prop].split('embed/')[1];
+
+        if (video_id) {
+          this.layer.values[prop] = video_id.substr(0, 11);
+        }
+      }
       return this.layer.layout.templateFunc({ $markdown: marked, ...this.layer.values });
     },
   },
