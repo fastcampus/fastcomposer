@@ -88,14 +88,13 @@
           },
           toolbar: {
             items: [
-              'heading',
-              '|',
               'fontSize',
+              'fontColor',
               'bold',
               'italic',
               'underline',
               'Strikethrough',
-              'Highlight'
+              'Highlight',
             ]
           }
         }
