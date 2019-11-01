@@ -39,7 +39,7 @@
         </template>
 
         <template v-else-if="param.type === 'textarea'">
-          <textarea class="fc-editor__form__textarea" rows="20" v-model="layer.values[param.name]"></textarea>
+          <ckeditor class="fc-editor__form__textarea" :editor="editor" v-model="layer.values[param.name]" @ready="onReady" :config="editorConfig"></ckeditor>
         </template>
 
         <template v-else-if="param.type === 'select'">
@@ -65,10 +65,41 @@
 
 <script>
   import FileUpload from './file-upload.vue';
+  import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
   export default {
     components: {
       FileUpload,
+    },
+    data() {
+      return {
+        editor: DecoupledEditor,
+        editorConfig: {
+          fontSize: {
+            options: [
+              14,
+              16,
+              20,
+              24,
+              28,
+              32,
+              40
+            ]
+          },
+          toolbar: {
+            items: [
+              'heading',
+              '|',
+              'fontSize',
+              'bold',
+              'italic',
+              'underline',
+              'Strikethrough',
+              'Highlight'
+            ]
+          }
+        }
+      }
     },
     props: {
       layer: {
@@ -79,6 +110,12 @@
       },
     },
     methods: {
+      onReady( editor )  {
+        editor.ui.getEditableElement().parentElement.insertBefore(
+          editor.ui.view.toolbar.element,
+          editor.ui.getEditableElement()
+        );
+      },
       upload(name, url) {
         this.layer.values[name] = url;
       },
