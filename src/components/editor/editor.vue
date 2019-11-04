@@ -39,7 +39,10 @@
         </template>
 
         <template v-else-if="param.type === 'textarea'">
-          <ckeditor class="fc-editor__form__textarea" :editor="editor" v-model="layer.values[param.name]" @ready="onReady" :config="editorConfig"></ckeditor>
+          <vue-editor
+            v-model="layer.values[param.name]"
+            :editor-toolbar="customToolbar"
+          />
         </template>
 
         <template v-else-if="param.type === 'select'">
@@ -65,39 +68,20 @@
 
 <script>
   import FileUpload from './file-upload.vue';
-  import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+  import { VueEditor } from "vue2-editor";
 
   export default {
     components: {
       FileUpload,
+      VueEditor
     },
     data() {
       return {
-        editor: DecoupledEditor,
-        editorConfig: {
-          fontSize: {
-            options: [
-              14,
-              16,
-              20,
-              24,
-              28,
-              32,
-              40
-            ]
-          },
-          toolbar: {
-            items: [
-              'fontSize',
-              'fontColor',
-              'bold',
-              'italic',
-              'underline',
-              'Strikethrough',
-              'Highlight',
-            ]
-          }
-        }
+        customToolbar: [
+          ["bold", "italic", "underline", "strike"], // toggled buttons
+          [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+          ["clean"] // remove formatting button
+        ]
       }
     },
     props: {
@@ -109,12 +93,6 @@
       },
     },
     methods: {
-      onReady( editor )  {
-        editor.ui.getEditableElement().parentElement.insertBefore(
-          editor.ui.view.toolbar.element,
-          editor.ui.getEditableElement()
-        );
-      },
       upload(name, url) {
         this.layer.values[name] = url;
       },

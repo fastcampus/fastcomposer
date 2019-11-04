@@ -11,15 +11,14 @@
     "build-layouts": "node layouts/build.js"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-decoupled-document": "^15.0.0",
-    "@ckeditor/ckeditor5-vue": "^1.0.0",
     "lodash": "^4.17.14",
-    "marked": "^0.6.3",
+    "marked": "^0.7.0",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
     "sass-mq": "^5.0.0",
     "vue": "^2.6.10",
-    "vue-smooth-dnd": "^0.8.0"
+    "vue-smooth-dnd": "^0.8.0",
+    "vue2-editor": "^2.10.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.2",
